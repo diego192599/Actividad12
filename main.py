@@ -4,7 +4,7 @@ def Ingreso():
     for i in range(cantidad):
         nombre=input("Ingrese el nombre del repartidor: ")
         paquetes=int(input("Ingrese la cantidad de paquetes que envio: "))
-        if 0<=paquetes:
+        if paquetes<0:
                 print("La cantidad de paquetes no puede ser negativa")
         else:
             print("Dato guardado correcatamente")
@@ -17,16 +17,39 @@ def quick_sort(lista):
     if len(lista)<=1:
         return lista
     else:
-        pivote=lista[0]
-        menor=[x for x in lista[1:] if x<pivote]
-        igual=[x for x in lista if x==pivote]
-        mayor=[x for x in lista[1:] if x>pivote]
+        pivote=lista[0][1]
+        menor=[x for x in lista[1:] if x[1]<pivote]
+        igual=[x for x in lista if x[1]==pivote]
+        mayor=[x for x in lista[1:] if x[1]>pivote]
         return quick_sort(menor)+igual+quick_sort(mayor)
 
 def MostrarOrdenRepartidores():
     if not repartidor:
-        print("\n El repartidor no se encuentra en este sistema ")
+        print("No hay repartidores")
         return
-    paquetes=list(repartidor.keys())
-    paquetesOrdenados=quick_sort(paquetes)
-    print("\n El orden de los repartidores de mayor a menor cantidad de paquetes entregados")
+    lista=[(nombre,dato["nombre"]) for nombre, dato in repartidor.items()]
+    lista_orden=quick_sort(lista)
+    print("\n Orden de repartidores por cantidad de paquetes")
+    for nombre,_ in lista_orden:
+        dato=repartidor[nombre]
+        print(f"\n El nombre del repartidor es: {nombre}")
+        print(f"\n Paquetes entregados son: {dato['paquetes']}")
+        print(f"\n Zona designada es : {dato['zona']}")
+
+
+def busqueda(lista, objetivo):
+    if not repartidor:
+        print("El repartidor no se encuentra en este sistema")
+        return
+    nombre_buscado = input("Ingrese el nombre del repartidor que esta buscando: ")
+    for nombre in repartidor:
+        if nombre.lower() == nombre_buscado.lower():
+            datos = repartidor[nombre]
+            print("\n Repartidor encontrado ")
+            print(f"Nombre: {nombre}")
+            print(f"Paquetes entregados: {datos['paquetes']}")
+            print(f"Zona designada: {datos['zona']}")
+            return
+    print("Repardidor no encontrado")
+
+def
