@@ -13,44 +13,44 @@ def Ingreso():
             "paquetes": paquetes,
             "zona":zona
         }
+
 def quick_sort(lista):
-    if len(lista)<=1:
+    if len(lista) <= 1:
         return lista
     else:
-        pivote=lista[0][1]
-        menor=[x for x in lista[1:] if x[1]<pivote]
-        igual=[x for x in lista if x[1]==pivote]
-        mayor=[x for x in lista[1:] if x[1]>pivote]
-        return quick_sort(menor)+igual+quick_sort(mayor)
+        pivote = lista[0][1]
+        menor = [x for x in lista[1:] if x[1] < pivote]
+        igual = [x for x in lista if x[1] == pivote]
+        mayor = [x for x in lista[1:] if x[1] > pivote]
+        return quick_sort(mayor) + igual + quick_sort(menor)
 
 def MostrarOrdenRepartidores():
     if not repartidor:
         print("No hay repartidores")
         return
-    lista=[(nombre,dato["nombre"]) for nombre, dato in repartidor.items()]
-    lista_orden=quick_sort(lista)
-    print("\n Orden de repartidores por cantidad de paquetes")
-    for nombre,_ in lista_orden:
-        dato=repartidor[nombre]
-        print(f"\n El nombre del repartidor es: {nombre}")
-        print(f"\n Paquetes entregados son: {dato['paquetes']}")
-        print(f"\n Zona designada es : {dato['zona']}")
+    lista = [(nombre, dato["paquetes"]) for nombre, dato in repartidor.items()]
+    lista_orden = quick_sort(lista)
+    print("\n Orden de repartidores por cantidad de paquetes (mayor a menor):")
+    for nombre, _ in lista_orden:
+        dato = repartidor[nombre]
+        print(f"\n Repartidor: {nombre}")
+        print(f" Paquetes entregados: {dato['paquetes']}")
+        print(f" Zona: {dato['zona']}")
 
-
-def busqueda(lista, objetivo):
+def busqueda():
     if not repartidor:
         print("El repartidor no se encuentra en este sistema")
         return
-    nombre_buscado = input("Ingrese el nombre del repartidor que esta buscando: ")
+    nombre_buscado = input("Ingrese el nombre del repartidor que está buscando: ")
     for nombre in repartidor:
         if nombre.lower() == nombre_buscado.lower():
             datos = repartidor[nombre]
-            print("\n Repartidor encontrado ")
-            print(f"Nombre: {nombre}")
-            print(f"Paquetes entregados: {datos['paquetes']}")
-            print(f"Zona designada: {datos['zona']}")
+            print("\n Repartidor encontrado:")
+            print(f"   Nombre: {nombre}")
+            print(f"   Paquetes entregados: {datos['paquetes']}")
+            print(f"   Zona designada: {datos['zona']}")
             return
-    print("Repardidor no encontrado")
+    print(" Repartidor no encontrado")
 
 def Estadistica():
     if not repartidor:
@@ -66,15 +66,49 @@ def Estadistica():
         paquetes=dato['paquetes']
         total+=paquetes
         contador+=1
+        if max is None or paquetes>max:
+            max=paquetes
+            max_repartidores=['nombre']
+        elif paquetes==max:
+            max_repartidores.append(nombre)
+        if min is None or paquetes<min:
+            min=paquetes
+            min_repartidores=['nombre']
+        elif paquetes==min:
+            min_repartidores.append(nombre)
+    promedio=total/contador
+    print("\n Estadistica general de los repartidores")
+    print(f"\n Total de paquetes entregados: {total}")
+    print(f"Promedio de paquetes entregados: {promedio:.2f}")
+    print(f"\n El repartidor(es) con mas entregas es: ({max} paquetes):")
+    for nombre in max_repartidores:
+        print(f"  -{nombre}")
+    print(f"\nRepartidor(es) con menos entregas ({min} paquetes):")
+    for nombre in min_repartidores:
+        print(f"   - {nombre}")
 
 while True:
-    print("==Menu==")
-    print("1. Ingresar Repartidores")
-    print("2. Orden por cantida de paquetes entregados")
-    print("3. Buscar repartidores")
-    print("4. Estadistica de Repartidores")
+    print("\n== Menú ==")
+    print("1. Ingresar repartidores")
+    print("2. Orden por cantidad de paquetes entregados")
+    print("3. Buscar repartidor por nombre")
+    print("4. Estadísticas de repartidores")
     print("5. Salir")
-    opcion=input("Seleccione una opcion: ")
-    match=opcion
-    match 1:
+    opcion = input("Seleccione una opción: ")
+
+    match opcion:
+        case "1":
+            Ingreso()
+        case "2":
+            MostrarOrdenRepartidores()
+        case "3":
+            busqueda()
+        case "4":
+            Estadistica()
+        case "5":
+            print(" Programa finalizado.")
+            break
+        case _:
+            print("Opción inválida. Intente de nuevo.")
+
 
