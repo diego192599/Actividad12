@@ -66,3 +66,15 @@ def Estadistica():
         paquetes=dato['paquetes']
         total+=paquetes
         contador+=1
+
+while True:
+    print("==Menu==")
+    print("1. Ingresar Repartidores")
+    print("2. Orden por cantida de paquetes entregados")
+    print("3. Buscar repartidores")
+    print("4. Estadistica de Repartidores")
+    print("5. Salir")
+    opcion=input("Seleccione una opcion: ")
+    match=opcion
+    match 1:
+
