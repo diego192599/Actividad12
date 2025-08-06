@@ -52,4 +52,17 @@ def busqueda(lista, objetivo):
             return
     print("Repardidor no encontrado")
 
-def
+def Estadistica():
+    if not repartidor:
+        print("No hay repartidores registrados")
+        return
+    total=0
+    contador=0
+    max=None
+    min=None
+    max_repartidores=[]
+    min_repartidores=[]
+    for nombre,dato in repartidor.items():
+        paquetes=dato['paquetes']
+        total+=paquetes
+        contador+=1
